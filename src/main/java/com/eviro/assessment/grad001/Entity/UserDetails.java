@@ -1,6 +1,7 @@
 package com.eviro.assessment.grad001.Entity;
 
 import javax.persistence.*;
+import java.net.URI;
 
 @Entity
 @Table(name = "AccountProfile")
@@ -13,7 +14,7 @@ public class UserDetails {
     @Column(name = "AccountHolderSurname")
     private String surname;
     @Column(name = "HttpImageLink")
-    private String imagePath;
+    private URI imagePath;
 
     public int getId() {
         return id;
@@ -39,11 +40,11 @@ public class UserDetails {
         this.surname = surname;
     }
 
-    public String getImagePath() {
+    public URI getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
+    public void setImagePath(URI imagePath) {
         this.imagePath = imagePath;
     }
 

@@ -1,4 +1,4 @@
-package com.eviro.assessment.grad001.Controller;
+package com.eviro.assessment.grad001.Entity;
 
 import java.io.File;
 import java.net.URI;
