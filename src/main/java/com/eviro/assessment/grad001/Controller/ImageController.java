@@ -1,14 +1,16 @@
 package com.eviro.assessment.grad001.Controller;
+import com.eviro.assessment.grad001.Entity.FileProcessor;
 import com.eviro.assessment.grad001.Entity.UserDetails;
 import com.eviro.assessment.grad001.Repository.AccountProfileRepository;
-import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvParserSettings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -16,9 +18,8 @@ import java.util.*;
 @RequestMapping("/v1/api/image")
 public class ImageController {
 
-    @Autowired
     AccountProfileRepository accountProfileRepository;
-    private List<UserDetails> UserDataList;
+    private String DirectorPath = "/home/wtc/springbootApp/ThuthkaniMthiyane/src/main/resources/static/";
 
     @GetMapping(value = "/{name}/{surname}/{\\w\\.\\w}")
     public FileSystemResource gethttpImageLink(@PathVariable String name, @PathVariable String surname){
@@ -26,12 +27,18 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public String uploadUserData(@RequestParam("file")MultipartFile file) throws Exception{
-        for(UserDetails user : UserDataList){
-
+    public String uploadUserData(@RequestParam("file") MultipartFile file) throws Exception{
+        String csvFilePath = DirectorPath+file.getOriginalFilename();
+        FileProcessor fileProcessor = new FileProcessor();
+        fileProcessor.parseCSV(new File(DirectorPath+"1672815113084-GraduateDev_AssessmentCsv_Ref003.csv"));
+        if(fileProcessor.getUserDetailsList().size() <= 0){
+            return " Empty list";
+        }
+        for(UserDetails user : fileProcessor.getUserDetailsList()){
+            accountProfileRepository.save(user);
         }
 
-        return "";
+        return "Successfully updated";
     }
 
 }

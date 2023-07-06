@@ -11,7 +11,6 @@ import java.util.*;
 public class FileProcessor implements FileParser{
 
     private String[] imageFormat = null;
-    private String byteString;
     private List<UserDetails> userDetailsList;
 
     @Override
@@ -19,17 +18,23 @@ public class FileProcessor implements FileParser{
         try {
             LineNumberReader inputCsvFile = new LineNumberReader(new FileReader(csvFile));
             String eachLine;
-            while ((eachLine = inputCsvFile.readLine()) !=  null){
+            int iteration = 0;
+            while ((eachLine = inputCsvFile.readLine()) !=  null ){
+                if(iteration == 0) {
+                    iteration++;
+                    continue;
+                }
                 String [] columns = eachLine.split(",");
                 if(columns.length == 4){
                     UserDetails user = new UserDetails();
                     user.setName(columns[0]);
                     user.setSurname(columns[1]);
                     this.imageFormat = columns[2].split("/");
-                    this.byteString = columns[3];
-                    File imageFile = convertCSVDataToImage(byteString);
-                    URI imageLink = createImageLink(imageFile);
-                    user.setImagePath(imageLink);
+                    if(columns[3]!= null){
+                        File imageFile = convertCSVDataToImage(columns[3]);
+                        URI imageLink = createImageLink(imageFile);
+                        user.setImagePath(imageLink);
+                    }
                     this.userDetailsList =new ArrayList<>();
                     userDetailsList.add(user);
                 }
@@ -62,7 +67,7 @@ public class FileProcessor implements FileParser{
     @Override
     public URI createImageLink(File fileImage) {
         try {
-            Path destination = Path.of("/path/to/image/directory/", fileImage.getName());
+            Path destination = Path.of("/home/wtc/springbootApp/ThuthkaniMthiyane/src/main/resources/static", fileImage.getName());
             Files.copy(fileImage.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
             return destination.toUri();
         } catch (IOException e) {
