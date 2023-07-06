@@ -1,6 +1,6 @@
-package com.eviro.assessment.grad001.Entity;
+package com.eviro.assessment.grad001.ThuthkaniMthiyane.Entity;
 
-import com.eviro.assessment.grad001.Repository.AccountProfileRepository;
+
 import org.springframework.util.Base64Utils;
 import java.io.*;
 import java.net.URI;
@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.util.*;
 
 
-public class FileProcessor implements FileParser{
+public class FileProcessor implements FileParser {
 
     private String[] imageFormat = null;
     private List<UserDetails> userDetailsList;
@@ -30,12 +30,10 @@ public class FileProcessor implements FileParser{
                     user.setName(columns[0]);
                     user.setSurname(columns[1]);
                     this.imageFormat = columns[2].split("/");
-                    if(columns[3]!= null){
-                        File imageFile = convertCSVDataToImage(columns[3]);
-                        URI imageLink = createImageLink(imageFile);
-                        user.setImagePath(imageLink);
-                    }
-                    this.userDetailsList =new ArrayList<>();
+                    File imageFile = convertCSVDataToImage(columns[3]);
+                    URI imageLink = createImageLink(imageFile);
+                    user.setImagePath(imageLink);
+                    this.userDetailsList = new ArrayList<>();
                     userDetailsList.add(user);
                 }
 

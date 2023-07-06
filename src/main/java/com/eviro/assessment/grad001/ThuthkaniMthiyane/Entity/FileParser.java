@@ -1,4 +1,4 @@
-package com.eviro.assessment.grad001.Entity;
+package com.eviro.assessment.grad001.ThuthkaniMthiyane.Entity;
 
 import java.io.File;
 import java.net.URI;
