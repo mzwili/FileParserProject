@@ -15,7 +15,7 @@ public class UserDetails {
     @Column(name = "AccountHolderSurname")
     private String surname;
     @Column(name = "HttpImageLink")
-    private URI imagePath;
+    private String imagePath;
 
     public UserDetails(){
         super();
@@ -45,11 +45,11 @@ public class UserDetails {
         this.surname = surname;
     }
 
-    public URI getImagePath() {
+    public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(URI imagePath) {
+    public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 

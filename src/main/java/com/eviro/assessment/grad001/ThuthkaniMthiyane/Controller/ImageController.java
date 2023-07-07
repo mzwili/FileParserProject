@@ -24,13 +24,8 @@ public class ImageController {
     public String uploadUserData(@RequestParam("file") MultipartFile file) throws Exception{
         String csvFilePath = DirectorPath+file.getOriginalFilename();
         file.transferTo(new File(csvFilePath));
-        FileProcessor fileProcessor = new FileProcessor();
+        FileProcessor fileProcessor = new FileProcessor(accountProfileRepository);
         fileProcessor.parseCSV(new File(DirectorPath+file.getOriginalFilename()));
-        if(fileProcessor.getUserDetailsList().size() <= 0){
-            return " Empty list";
-        }
-        accountProfileRepository.saveAll(fileProcessor.getUserDetailsList());
-
         return "Successfully updated";
     }
 

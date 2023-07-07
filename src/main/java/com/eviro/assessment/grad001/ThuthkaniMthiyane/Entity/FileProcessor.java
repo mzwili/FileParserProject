@@ -1,21 +1,28 @@
 package com.eviro.assessment.grad001.ThuthkaniMthiyane.Entity;
 
 
+import com.eviro.assessment.grad001.ThuthkaniMthiyane.Repository.AccountProfileRepository;
 import org.springframework.util.Base64Utils;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.*;
-import java.util.*;
 
 
 public class FileProcessor implements FileParser {
 
-    private String[] imageFormat = null;
-    private List<UserDetails> userDetailsList;
+    private AccountProfileRepository accountRepository;
+    private String[] imageFormat = new String[2];
+
+
+    public FileProcessor(AccountProfileRepository accountProfileRepository) {
+        this.accountRepository = accountProfileRepository;
+    }
 
     @Override
     public void parseCSV(File csvFile) {
+
         try {
+
             LineNumberReader inputCsvFile = new LineNumberReader(new FileReader(csvFile));
             String eachLine;
             int iteration = 0;
@@ -24,22 +31,20 @@ public class FileProcessor implements FileParser {
                     iteration++;
                     continue;
                 }
+
+                UserDetails user = new UserDetails();
                 String [] columns = eachLine.split(",");
                 if(columns.length == 4){
-                    UserDetails user = new UserDetails();
                     user.setName(columns[0]);
                     user.setSurname(columns[1]);
                     this.imageFormat = columns[2].split("/");
                     File imageFile = convertCSVDataToImage(columns[3]);
                     URI imageLink = createImageLink(imageFile);
-                    user.setImagePath(imageLink);
-                    this.userDetailsList = new ArrayList<>();
-                    userDetailsList.add(user);
+                    user.setImagePath(imageLink.getPath());
+                    accountRepository.save(user);
                 }
 
             }
-
-
 
         }catch (FileNotFoundException e){
             System.out.println(e.getMessage());
@@ -72,10 +77,5 @@ public class FileProcessor implements FileParser {
             throw new RuntimeException("Error creating image link.", e);
         }
     }
-
-    public List<UserDetails> getUserDetailsList() {
-        return userDetailsList;
-    }
-
 
 }
