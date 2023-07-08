@@ -28,7 +28,7 @@ public class Utility {
 
     public String getResourcesPath(){
         String currentDirectory = System.getProperty("user.dir");
-        Path path = Paths.get(currentDirectory, "ThuthkaniMthiyane","src", "main", "resources", "static");
+        Path path = Paths.get(currentDirectory, "src", "main", "resources", "static");
 
         // Get the absolute path from the root directory
         Path absolutePath = path.toAbsolutePath();
