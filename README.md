@@ -50,10 +50,16 @@ The following endpoints are available:
 The following links are for viewing your database data and picture on the browser.
 
 The H2 Database:
-- `http://localhost:8080/h2-console/`
 
-The Image rendering :
-- `http://localhost:8080/v1/api/image/{name}/{surname}/{\\w.\\w}`
+```bash
+http://localhost:8080/h2-console/
+```
+
+Image rendering (just replace name and  surname values found on database and add an alphanumeric charactor):
+
+```bash
+http://localhost:8080/v1/api/image/{name}/{surname}/{\\w.\\w}
+```
 
 ## Contributing
 
