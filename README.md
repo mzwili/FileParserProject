@@ -43,7 +43,17 @@ mvn spring-boot:run
 
 The following endpoints are available:
 
-- `GET /v1/api/image/{name}/{surname}/{imageName}` - Retrieves the HTTP image link for the specified user.
+- `GET /v1/api/image/{name}/{surname}/{\\w.\\w}` - Retrieves the HTTP image link for the specified user.
+
+## Urls
+
+The following links are for viewing your database data and picture on the browser.
+
+The H2 Database:
+- `http://localhost:8080/h2-console/`
+
+The Image rendering :
+- `http://localhost:8080/v1/api/image/{name}/{surname}/{\\w.\\w}`
 
 ## Contributing
 
