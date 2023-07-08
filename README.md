@@ -33,7 +33,9 @@ It stores the links to the images on the H2 Database along with the name and sur
 
 To run the application, execute the following command:
 
+
 ```bash
+cd FileParserProject-main
 mvn spring-boot:run
 ```
 
