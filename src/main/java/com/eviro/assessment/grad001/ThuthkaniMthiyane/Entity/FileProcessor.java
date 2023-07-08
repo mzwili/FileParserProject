@@ -2,6 +2,7 @@ package com.eviro.assessment.grad001.ThuthkaniMthiyane.Entity;
 
 
 import com.eviro.assessment.grad001.ThuthkaniMthiyane.Repository.AccountProfileRepository;
+import com.eviro.assessment.grad001.ThuthkaniMthiyane.utility.Utility;
 import org.springframework.util.Base64Utils;
 import java.io.*;
 import java.net.URI;
@@ -10,12 +11,12 @@ import java.nio.file.*;
 
 public class FileProcessor implements FileParser {
 
-    private AccountProfileRepository accountRepository;
-    private String[] imageFormat = new String[2];
-
+    private final AccountProfileRepository accountRepository;
+    private String[] imageFormat;
 
     public FileProcessor(AccountProfileRepository accountProfileRepository) {
         this.accountRepository = accountProfileRepository;
+        this.imageFormat = new String[2];
     }
 
     @Override
@@ -57,7 +58,7 @@ public class FileProcessor implements FileParser {
     public File convertCSVDataToImage(String base64ImageData) {
         try {
             byte[] imageData = Base64Utils.decodeFromString(base64ImageData);
-            File imageFile = File.createTempFile("image", this.imageFormat[1]);
+            File imageFile = File.createTempFile("image", "."+this.imageFormat[1]);
             try (FileOutputStream fos = new FileOutputStream(imageFile)) {
                 fos.write(imageData);
             }
@@ -70,12 +71,11 @@ public class FileProcessor implements FileParser {
     @Override
     public URI createImageLink(File fileImage) {
         try {
-            Path destination = Path.of("/home/wtc/springbootApp/ThuthkaniMthiyane/src/main/resources/static", fileImage.getName());
+            Path destination = Path.of(new Utility().getResourcesPath()+fileImage.getName());
             Files.copy(fileImage.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
             return destination.toUri();
         } catch (IOException e) {
             throw new RuntimeException("Error creating image link.", e);
         }
     }
-
 }
