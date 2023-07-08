@@ -6,28 +6,34 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 public class Utility {
 
     public String getResourceFilePath(String fileName){
         URL resource = getClass().getClassLoader().getResource(fileName);
         if (resource == null) {
-            throw new IllegalArgumentException("file not found!");
+            throw new IllegalArgumentException("File not found: " + fileName);
         } else {
             try {
-                return new File(resource.toURI()).getAbsolutePath();
+                File file = new File(resource.toURI());
+                Path filePath = file.toPath();
+
+                // Convert the Path object to a string, using the correct file separator for the OS
+                return filePath.toString();
             } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Error getting resource file path: " + fileName, e);
             }
         }
     }
 
     public String getResourcesPath(){
-        Path path = Paths.get("src\\main\\resources\\");
+        String currentDirectory = System.getProperty("user.dir");
+        Path path = Paths.get(currentDirectory, "ThuthkaniMthiyane","src", "main", "resources", "static");
 
         // Get the absolute path from the root directory
         Path absolutePath = path.toAbsolutePath();
 
         // Convert the Path object to a string
-        return absolutePath.toString()+"\\";
+        return absolutePath.toString();
     }
 }

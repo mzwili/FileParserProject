@@ -1,7 +1,6 @@
 package com.eviro.assessment.grad001.ThuthkaniMthiyane.Entity;
 
 import javax.persistence.*;
-import java.net.URI;
 
 @Entity
 @Table(name = "Account_Profile")
