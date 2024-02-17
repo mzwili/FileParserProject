@@ -33,7 +33,7 @@ public class ImageController implements FileParser {
             parseCSV(new File(csvFilePath));
     }
 
-    @GetMapping(value = "/{name}/{surname}/{\\w\\.\\w}")
+    @GetMapping(value = "/{name}/{surname}")
     public ResponseEntity<FileSystemResource> gethttpImageLink(@PathVariable String name, @PathVariable String surname){
         try {
             List<UserDetails> userDetailsList = accountProfileRepository.findAll();
@@ -52,7 +52,7 @@ public class ImageController implements FileParser {
             }
 
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -85,10 +85,10 @@ public class ImageController implements FileParser {
 
             }
 
-        }catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
+        }catch (FileNotFoundException ex){
+            System.out.println(ex.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
